@@ -1,0 +1,14 @@
+{
+  "name": "API Data Fetcher",
+  "description": "A custom app to fetch and display data from external APIs",
+  "version": "1.0.0",
+  "location": "details_panel",
+  "icon": "https://cdn.intercom.io/icons/icon-48x48.png",
+  "canvas": {
+    "height": "medium"
+  },
+  "permissions": [
+    "read:conversation",
+    "read:contact"
+  ]
+}

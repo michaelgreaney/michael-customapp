@@ -3,423 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate Stag Showdown</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #111827; /* Dark background for the body */
-        }
-        .flip-card {
-            background-color: transparent;
-            width: 100%;
-            height: 300px;
-            perspective: 1000px;
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .flip-card-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .flip-card-front {
-            background-color: #1F2937;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateZ(1px); /* Add this line */
-        }
-        .flip-card-back {
-            background-color: #1F2937;
-            color: white;
-            transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .city-page {
-            display: none;
-        }
-        .city-page:target {
-            display: block;
-        }
-        .nav-link {
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .nav-link:hover, .nav-link.active {
-            background-color: #4F46E5;
-            color: white;
-        }
-        .hero-bg {
-            background-image: url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-    </style>
+    <title>API Data Fetcher</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@intercom/canvas-kit@latest/dist/canvas-kit.js"></script>
 </head>
-<body class="text-white">
-
-    <!-- Homepage Section -->
-    <div id="home">
-        <div class="hero-bg">
-            <div class="bg-black bg-opacity-60 min-h-screen flex flex-col items-center justify-center p-4 text-center">
-                <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight">THE STAG SHOWDOWN</h1>
-                <p class="text-lg md:text-2xl max-w-3xl">Six cities. One SRS stag party to plan. Explore the contenders below and choose your top choice.</p>
-                <p class="text-md md:text-xl mt-2 font-semibold">Potential Dates: 31st Jan - 2nd Feb 2026  OR  7th - 9th Feb 2026</p>
-            </div>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <h2>API Data Fetcher</h2>
         </div>
-
-        <div class="bg-gray-900 py-16 px-4">
-            <h2 class="text-4xl font-bold text-center mb-12">Click a Tile to Reveal a Contender</h2>
-            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Lisbon Tile -->
-                <div class="flip-card">
-                    <div class="flip-card-inner shadow-lg">
-                        <div class="flip-card-front">
-                            <div class="flex flex-col items-center justify-center h-full p-4">
-                                <span class="text-6xl font-bold">Option 1</span>
-                                <button class="flip-button mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded z-10">Reveal</button>
-                            </div>
-                        </div>
-                        <div class="flip-card-back p-4">
-                            <h3 class="text-3xl font-bold mb-4">Lisbon</h3>
-                            <a href="#lisbon" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Explore Details</a>
-                            <button class="flip-button mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm">Flip Back</button>
-                        </div>
-                    </div>
+        
+        <div class="app-content">
+            <div class="config-section">
+                <label for="api-url">API Endpoint:</label>
+                <input 
+                    type="text" 
+                    id="api-url" 
+                    placeholder="https://api.example.com/data"
+                    class="input-field"
+                />
+                
+                <label for="api-method">HTTP Method:</label>
+                <select id="api-method" class="select-field">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="PATCH">PATCH</option>
+                </select>
+                
+                <div id="auth-section" class="auth-section">
+                    <label for="api-key">API Key (optional):</label>
+                    <input 
+                        type="password" 
+                        id="api-key" 
+                        placeholder="Enter API key"
+                        class="input-field"
+                    />
                 </div>
-                <!-- Cologne Tile -->
-                <div class="flip-card">
-                    <div class="flip-card-inner shadow-lg">
-                        <div class="flip-card-front">
-                            <div class="flex flex-col items-center justify-center h-full p-4">
-                                <span class="text-6xl font-bold">Option 2</span>
-                                <button class="flip-button mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded z-10">Reveal</button>
-                            </div>
-                        </div>
-                        <div class="flip-card-back p-4">
-                            <h3 class="text-3xl font-bold mb-4">Cologne</h3>
-                            <a href="#cologne" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Explore Details</a>
-                            <button class="flip-button mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm">Flip Back</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Warsaw Tile -->
-                <div class="flip-card">
-                    <div class="flip-card-inner shadow-lg">
-                        <div class="flip-card-front">
-                            <div class="flex flex-col items-center justify-center h-full p-4">
-                                <span class="text-6xl font-bold">Option 3</span>
-                                <button class="flip-button mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded z-10">Reveal</button>
-                            </div>
-                        </div>
-                        <div class="flip-card-back p-4">
-                            <h3 class="text-3xl font-bold mb-4">Warsaw</h3>
-                            <a href="#warsaw" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Explore Details</a>
-                            <button class="flip-button mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm">Flip Back</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Krakow Tile -->
-                <div class="flip-card">
-                    <div class="flip-card-inner shadow-lg">
-                        <div class="flip-card-front">
-                            <div class="flex flex-col items-center justify-center h-full p-4">
-                                <span class="text-6xl font-bold">Option 4</span>
-                                <button class="flip-button mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded z-10">Reveal</button>
-                            </div>
-                        </div>
-                        <div class="flip-card-back p-4">
-                            <h3 class="text-3xl font-bold mb-4">Krakow</h3>
-                            <a href="#krakow" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Explore Details</a>
-                            <button class="flip-button mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm">Flip Back</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Bucharest Tile -->
-                <div class="flip-card">
-                    <div class="flip-card-inner shadow-lg">
-                        <div class="flip-card-front">
-                            <div class="flex flex-col items-center justify-center h-full p-4">
-                                <span class="text-6xl font-bold">Option 5</span>
-                                <button class="flip-button mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded z-10">Reveal</button>
-                            </div>
-                        </div>
-                        <div class="flip-card-back p-4">
-                            <h3 class="text-3xl font-bold mb-4">Bucharest</h3>
-                            <a href="#bucharest" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Explore Details</a>
-                            <button class="flip-button mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm">Flip Back</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Sofia Tile -->
-                <div class="flip-card">
-                    <div class="flip-card-inner shadow-lg">
-                        <div class="flip-card-front">
-                            <div class="flex flex-col items-center justify-center h-full p-4">
-                                <span class="text-6xl font-bold">Option 6</span>
-                                <button class="flip-button mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded z-10">Reveal</button>
-                            </div>
-                        </div>
-                        <div class="flip-card-back p-4">
-                            <h3 class="text-3xl font-bold mb-4">Sofia</h3>
-                            <a href="#sofia" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Explore Details</a>
-                            <button class="flip-button mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm">Flip Back</button>
-                        </div>
-                    </div>
-                </div>
+                
+                <button id="fetch-btn" class="fetch-button">
+                    <span id="fetch-btn-text">Fetch Data</span>
+                    <span id="fetch-spinner" class="spinner hidden"></span>
+                </button>
             </div>
-        </div>
-    </div>
-    
-    <!-- City "Pages" -->
-    <div id="lisbon" class="city-page min-h-screen bg-gray-800 p-4 md:p-8">
-        <div class="max-w-5xl mx-auto">
-            <a href="#home" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mb-8">&larr; Back to Homepage</a>
-            <h1 class="text-6xl font-bold mb-4">Lisbon, Portugal</h1>
-            <img src="https://images.unsplash.com/photo-1525207934214-58e69a8f8a3e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-96 object-cover rounded-lg shadow-lg mb-8" alt="Lisbon cityscape">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Why Lisbon?</h2>
-                    <p>Sunny, vibrant, and surprisingly affordable. Lisbon offers a coastal vibe with bustling city life. Great food, cheap Super Bock beer, friendly locals, and a legendary nightlife scene make it a top-tier stag destination. The weather, even in February, is likely to be milder than almost anywhere else on the list.</p>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Stag Activities</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><b>Beer Bike Tour:</b> Pedal through the city streets while sinking pints.</li>
-                        <li><b>Go Karting:</b> Unleash your competitive side on a high-speed track.</li>
-                        <li><b>Surf Lessons:</b> Hit the nearby coast and catch some waves.</li>
-                        <li><b>Food & Wine Tasting:</b> Experience Portuguese culture through its incredible food.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Nightlife</h2>
-                    <p>Start in the Bairro Alto district, a labyrinth of cobbled streets packed with over 100 tiny, eclectic bars. When those close, head down to Pink Street for the bigger clubs that stay open until the early hours. It's a guaranteed wild night out.</p>
-                </div>
-                 <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">⚽ Professional Football</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Sat, 31st Jan 2026:</strong> Sporting CP vs. Nacional (Primeira Liga)</li>
-                        <li><strong>Sat, 7th Feb 2026:</strong> Sporting CP vs. FC Porto (Primeira Liga) - A massive derby!</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="cologne" class="city-page min-h-screen bg-gray-800 p-4 md:p-8">
-        <div class="max-w-5xl mx-auto">
-            <a href="#home" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mb-8">&larr; Back to Homepage</a>
-            <h1 class="text-6xl font-bold mb-4">Cologne, Germany</h1>
-            <img src="https://images.unsplash.com/photo-1561624485-0e43bcc1836d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-96 object-cover rounded-lg shadow-lg mb-8" alt="Cologne Cathedral">
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Why Cologne?</h2>
-                    <p>Famous for its incredible cathedral, liberal attitude, and unique Kölsch beer culture. Cologne offers a classic German stag experience. It's a city built for a good time, with traditional beer halls and a buzzing nightlife that caters to all tastes.</p>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Stag Activities</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><b>Brewery Tour:</b> Dive into the world of Kölsch beer, served in small glasses that are replaced until you say stop!</li>
-                        <li><b>Rhine River Booze Cruise:</b> See the city from the water with a beer in hand.</li>
-                        <li><b>Bubble Football:</b> Strap yourselves into giant inflatable balls and cause chaos.</li>
-                        <li><b>Paintballing:</b> A stag do classic in a top-notch German facility.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Nightlife</h2>
-                    <p>The action is centred around Zülpicher Strasse (the student quarter) for cheap drinks and a lively atmosphere, and the Belgian Quarter for trendier bars. The Old Town (Altstadt) is packed with traditional beer halls perfect for starting the evening.</p>
-                </div>
-                 <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">⚽ Professional Football</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Sat, 31st Jan 2026:</strong> 1. FC Köln vs. VfL Wolfsburg (Bundesliga)</li>
-                        <li><strong>Sat, 7th Feb 2026:</strong> 1. FC Köln vs. RB Leipzig (Bundesliga)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="warsaw" class="city-page min-h-screen bg-gray-800 p-4 md:p-8">
-        <div class="max-w-5xl mx-auto">
-            <a href="#home" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mb-8">&larr; Back to Homepage</a>
-            <h1 class="text-6xl font-bold mb-4">Warsaw, Poland</h1>
-            <img src="https://images.unsplash.com/photo-1573157268794-d13e94d325e6?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-96 object-cover rounded-lg shadow-lg mb-8" alt="Warsaw skyline">
+            <div id="error-message" class="error-message hidden"></div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Why Warsaw?</h2>
-                    <p>A city of incredible history and resilience that has transformed into a modern, bustling metropolis. Warsaw offers fantastic value for money, a huge range of activities, and a seriously underrated and explosive nightlife, all powered by cheap, quality vodka.</p>
+            <div id="data-display" class="data-display hidden">
+                <div class="data-header">
+                    <h3>Response Data</h3>
+                    <button id="refresh-btn" class="refresh-button">Refresh</button>
                 </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Stag Activities</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><b>AK-47 Shooting Range:</b> Fire some serious hardware, including Kalashnikovs.</li>
-                        <li><b>Vodka Tasting:</b> It's Poland. This is an essential cultural experience!</li>
-                        <li><b>Party Bus/Tram:</b> Your own private club on wheels to tour the city.</li>
-                        <li><b>Escape Rooms:</b> Test your wits before you lose them on the vodka.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Nightlife</h2>
-                    <p>The city centre is packed with 'pawilony' (pavilions), small courtyard bars perfect for pre-drinking. Afterwards, the area around Mazowiecka Street is where you'll find the biggest and best nightclubs, with many venues staying open past sunrise.</p>
-                </div>
-                 <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">⚽ Professional Football</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Sat, 31st Jan 2026:</strong> Legia Warsaw vs. Korona Kielce (Ekstraklasa)</li>
-                        <li><strong>Sat, 7th Feb 2026:</strong> Polonia Warsaw vs. Stal Mielec (I Liga)</li>
-                    </ul>
-                </div>
+                <div id="data-content" class="data-content"></div>
             </div>
-        </div>
-    </div>
-    
-    <div id="krakow" class="city-page min-h-screen bg-gray-800 p-4 md:p-8">
-        <div class="max-w-5xl mx-auto">
-            <a href="#home" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mb-8">&larr; Back to Homepage</a>
-            <h1 class="text-6xl font-bold mb-4">Krakow, Poland</h1>
-            <img src="https://images.unsplash.com/photo-1636903364559-0dfc358abd94?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-96 object-cover rounded-lg shadow-lg mb-8" alt="Krakow Main Square">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Why Krakow?</h2>
-                    <p>The undisputed king of stag do destinations for a reason. Krakow is stunningly beautiful, incredibly cheap, and absolutely jam-packed with activities. The density of bars and clubs in its Main Market Square and the Jewish Quarter of Kazimierz is legendary.</p>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Stag Activities</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><b>Shooting Range:</b> An essential Krakow stag activity with a wide range of weapons.</li>
-                        <li><b>Vodka Tasting Tour:</b> Learn about (and drink) Poland's national spirit.</li>
-                        <li><b>White Water Rafting:</b> An adrenaline-pumping day trip from the city.</li>
-                        <li><b>Jelly Wrestling:</b> Because, of course.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Nightlife</h2>
-                    <p>It's relentless. The Main Square is home to countless underground cellar bars and huge clubs. For a slightly more alternative, bohemian vibe, head to the Kazimierz district. Everything is within walking distance, making it perfect for a bar crawl.</p>
-                </div>
-                 <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">⚽ Professional Football & E-Sports</h2>
-                    <p>While football schedules for Wisla Kraków are not yet confirmed for these dates, a massive international e-sports event is happening!</p>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Fri 6th - Sun 8th Feb 2026:</strong> IEM Kraków 2026 (Intel Extreme Masters) - A huge Counter-Strike tournament at the Tauron Arena. A unique and epic experience!</li>
-                    </ul>
-                </div>
+            <div id="loading-state" class="loading-state hidden">
+                <div class="spinner-large"></div>
+                <p>Loading data...</p>
             </div>
         </div>
     </div>
     
-    <div id="bucharest" class="city-page min-h-screen bg-gray-800 p-4 md:p-8">
-        <div class="max-w-5xl mx-auto">
-            <a href="#home" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mb-8">&larr; Back to Homepage</a>
-            <h1 class="text-6xl font-bold mb-4">Bucharest, Romania</h1>
-            <img src="https://i.dailymail.co.uk/1s/2021/12/29/18/52342523-10353443-An_Irishman_has_been_arrested_for_breaking_into_the_Romanian_Pre-m-355_1640800829147.jpg" class="w-full h-96 object-cover rounded-lg shadow-lg mb-8" alt="Bucharest architecture">
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Why Bucharest?</h2>
-                    <p>Nicknamed "Little Paris of the East," Bucharest is an energetic, chaotic, and fascinating city. It offers some of the best value in Europe, meaning your budget will stretch much further. The Old Town is a non-stop party zone, perfect for a stag weekend.</p>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Stag Activities</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><b>Therme Bucuresti:</b> A giant, modern thermal spa complex to sweat out the hangover.</li>
-                        <li><b>Visit Dracula's Castle:</b> A day trip to the legendary Bran Castle in Transylvania.</li>
-                        <li><b>Shooting Range:</b> Get your hands on some high-calibre firearms.</li>
-                        <li><b>Steak & Strip:</b> A classic stag do dinner with a Romanian twist.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Nightlife</h2>
-                    <p>The Old Town (Centru Vechi) is the heart of the action. It's a pedestrianised area crammed with hundreds of bars, pubs, and clubs. You can wander from one to the next all night long without needing a taxi. The vibe is electric and the party goes on late.</p>
-                </div>
-                 <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">⚽ Professional Football</h2>
-                    <p>There are no major home games scheduled for your chosen weekends. However, if you're flexible, a huge local derby is happening later in the month:</p>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Fri, 21st Feb 2026:</strong> FC Rapid Bucuresti vs. Dinamo Bucureşti.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="sofia" class="city-page min-h-screen bg-gray-800 p-4 md:p-8">
-        <div class="max-w-5xl mx-auto">
-            <a href="#home" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mb-8">&larr; Back to Homepage</a>
-            <h1 class="text-6xl font-bold mb-4">Sofia, Bulgaria</h1>
-            <img src="https://images.unsplash.com/photo-1695798599366-fb041c027148?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-96 object-cover rounded-lg shadow-lg mb-8" alt="Alexander Nevsky Cathedral, Sofia">
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Why Sofia?</h2>
-                    <p>If you're looking for an off-the-beaten-track destination that offers unbelievable value, Sofia is your answer. It's a cool, modern city with a rich history, vibrant student population, and what is likely the cheapest beer on this entire list. A hidden gem for a stag do.</p>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Stag Activities</h2>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><b>Skiing/Snowboarding Day Trip:</b> Vitosha Mountain is right on the city's doorstep.</li>
-                        <li><b>Indoor Karting:</b> A huge, modern indoor track for some racing action.</li>
-                        <li><b>Clay Pigeon Shooting:</b> Test your aim in the Bulgarian countryside.</li>
-                        <li><b>Bar Crawl with a Local Guide:</b> Discover the best hidden spots in the city.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">Nightlife</h2>
-                    <p>Vitosha Boulevard is the main artery, lined with bars and restaurants. For a more intense party scene, head to the Studentski Grad (Students' City) district, where you'll find countless clubs (known as 'diskoteki') pumping out music until dawn at incredibly low prices.</p>
-                </div>
-                 <div class="bg-gray-900 p-6 rounded-lg">
-                    <h2 class="text-3xl font-bold mb-4 text-indigo-400">⚽ Professional Football</h2>
-                     <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Sat, 7th Feb 2026:</strong> Levski Sofia vs. Botev Vratsa (Parva Liga)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <footer class="bg-gray-900 text-center p-4">
-        <p>&copy; 2025 Stag Party Planning Committee. Choose wisely.</p>
-    </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const flipButtons = document.querySelectorAll('.flip-button');
-    
-            flipButtons.forEach(button => {
-                button.addEventListener('click', function (event) {
-                    // Stop the click from triggering other things, like link navigation if it were inside one
-                    event.stopPropagation();
-                    
-                    const cardInner = this.closest('.flip-card-inner');
-                    if (cardInner) {
-                        cardInner.classList.toggle('is-flipped');
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
-
